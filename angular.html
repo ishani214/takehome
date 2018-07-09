@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="ForEx">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="angular.css" type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+
+</head>
+
+<body ng-controller="ConvertCtrl">
+<div class="container-fluid">
+
+    <div class="row content">
+        <br>
+        <div class="col-lg-8 col-lg-offset-2">
+            <div class="panel panel-default" data-ng-controller="ConvertCtrl">
+                <div class="panel-body">
+                    <form action="" method="POST" role="form">
+                        <legend class=" the legend">Fx Converter</legend>
+
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="">From</label>
+                                <select id="fromCurrency" data-ng-model="fromRate" class="form-control" required
+                                        data-ng-change="updateFromSymbol()" data-ng-options="k for (k, v) in rates track by v">
+                                    <option value="">From Country</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="width: 100%">
+                                <label for="">From</label>
+
+                                <span class="" style="display: inline-block; width:10%; line-height:80px;float: right;">{{fromSymbol}}</span>
+                                <input type="number" class="form-control"  style="width:80%" placeholder="Send"
+                                       data-ng-model="from" data-ng-change="updateTo()">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <img  ng-click="updateTo();updateFrom()" src="download.png" id="flipper">
+
+                        </div>
+                        <div class="col-md-5">
+
+                            <div class="form-group">
+                                <label for="">To</label>
+                                <select id="toCurrency" data-ng-model="toRate" class="form-control" required data-ng-change="updateToSymbol(v)"
+                                        data-ng-options="k for (k, v) in rates track by v">
+                                    <option value="">To Country</option>
+                                </select>
+
+                            </div>
+
+                            <div class="form-group" style="width: 100%">
+                                <label for="">To</label>
+                                <span class="" style="display: inline-block; width:10%; line-height:80px;float: right;">{{toSymbol}}</span>
+                                <input type="number" class="form-control" style="width:80%" placeholder="Receive Amount "
+                                       data-ng-model="to" data-ng-change="updateFrom()">
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="app.js"></script>
+</body>
+
+</html>
+
+
