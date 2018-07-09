@@ -1,7 +1,7 @@
 # takehome
 # FX Converter Setup Documentation
 
-Download webApp folder localy and run angular.html in any browser.
+Download or Clone https://github.com/ishani214/takehome.git locally and run angular.html in any browser.
 
 Application compatibility
 The application was tested and fully functional on Chrome, FireFox and IE11.
