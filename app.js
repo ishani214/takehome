@@ -33,7 +33,7 @@ ForEx.controller('ConvertCtrl', ['$scope', '$http', function($scope, $http) {
         $scope.fromSymbol = $scope.symbols[$scope.fromCurrency];
         $scope.toSymbol = $scope.symbols[$scope.toCurrency];
         console.log($scope.fromSymbol);
-        console.log($scope.toSymbol);
+        //console.log($scope.toSymbol);
     });
 
     $scope.updateFromSymbol = function(){
