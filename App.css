@@ -1,51 +1,43 @@
-body {
-    font: 14px "Century Gothic", Futura, sans-serif;
-    margin: 20px;
+.header{
+    background-color: #721c24;
+    height: 75px;
+    border: 4px solid;
+    box-shadow: -10px 10px 6px #2e3133;
 }
-
-ol, ul {
-    padding-left: 30px;
-}
-
-.board-row:after {
-    clear: both;
-    content: "";
-    display: table;
-}
-
-.status {
-    margin-bottom: 10px;
-}
-
-.square {
-    background: #fff;
-    border: 1px solid #999;
-    float: left;
-    font-size: 24px;
-    font-weight: bold;
-    line-height: 74px;
-    height: 74px;
-    margin-right: -1px;
-    margin-top: -1px;
-    padding: 0;
-    outline: 1px solid;
+.headText{
+    color: white;
+    vertical-align: middle;
     text-align: center;
-    width: 74px;
-}
+    line-height: 75px;
+    font-family: "Comic Sans MS";
 
-.square:focus {
-    outline: none;
 }
-
-.kbd-navigation .square:focus {
-    background: #ddd;
+.leftSideHeader{
+    text-align: center;
+    vertical-align: middle;
+    line-height: 65px;
+    font-family: cursive;
+    margin-bottom: 0;
 }
-
-.game {
-    display: flex;
-    flex-direction: row;
+.leftSide{
+    background-color: #fd7e14;
+    height: 65px;
+ }
+.rightSideHeader{
+    text-align: center;
+    vertical-align: middle;
+    line-height: 65px;
+    font-family: cursive;
+    margin-bottom: 0;
 }
+.rightSide{
+    background-color: #fd7e14;
+    height: 65px;
+}
+.menuList{
+    background-color: gray;
 
-.game-info {
-    margin-left: 20px;
+}
+button{
+    cursor: pointer;
 }

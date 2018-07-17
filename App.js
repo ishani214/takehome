@@ -1,109 +1,140 @@
 import React, { Component } from 'react';
 import './App.css';
 
-
-// Create Main Game Board
-class Game extends React.Component {
-    render() {
-        return (
-            <div className="game">
-                <div className="game-board">
-                    <Board />
-                </div>
-                {/*<div className="game-info">*/}
-                    {/*<div>/!* status *!/</div>*/}
-                    {/*<ol>/!* TODO *!/</ol>*/}
-                {/*</div>*/}
-            </div>
-        );
-    }
-}
-
-// Create Board
-class Board extends Component{
+class App extends Component {
     constructor(props){
         super(props);
-          this.state = {
-              squares: Array(9).fill(null),
-              xIsNext : true,
-
-        };
-    }
-    handleClick(i){
-        const squares = this.state.squares.slice();
-        if (calculateWinner(squares) || squares[i]) {
-            return;
+        this.state = {
+            menuList: [{name:'Tea ', price:3.40, qty:0},
+                {name:'Coffee ', price:4.15, qty:0},
+                {name:'Cappuccino ', price:4.20, qty:0},
+                {name:'Hot Chocolate ', price:4.90, qty:0},
+                {name:'Fruit Juice ', price:2.90, qty:0},
+                {name:'Milkshake ', price:3.50, qty:0},
+                {name:'Smoothie ', price:2.70, qty:0}
+            ],
+            orderList :[],
+            total: 0,
         }
-        squares[i] = this.state.xIsNext ? 'X' : 'O';
-        this.setState({
-            squares: squares,
-            xIsNext: !this.state.xIsNext,
-        });
-    }
-    renderSquare(i) {
-        return <Square value={this.state.squares[i]}
-                onClick = { ()=> this.handleClick(i)}/>;
-    }
 
-    render() {
-        const winner = calculateWinner(this.state.squares);
-        let status;
-        if (winner) {
-            status = 'Winner: ' + winner;
+    }
+    addOrder(order){
+        const newOrder = this.state.orderList.slice();
+        let newTotal = this.state.total;
+        if(order.qty === 0) {
+            order.qty++;
+
+            newOrder.push(order);
         } else {
-            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+            order.qty++;
+        }
+        newTotal = newTotal + order.price;
+        console.log(newTotal);
+        this.setState({orderList: newOrder, total: Number(newTotal.toFixed(2))})
+    }
+    removeOrder(item){
+                //alert("hei Remove")
+            const newOrder = this.state.orderList.slice();
+            let newTotal = this.state.total;
+            let i;
+        if(item.qty > 1){
+            item.qty --;
+            console.log(item.qty);
+        } else{
+            for( i=0; i< newOrder.length; i++){
+                if(item.name === newOrder[i].name){
+                    // console.log(newOrder);
+                    item.qty = 0;
+                    break;
+
+                }
+            }
+            newOrder.splice(i,1);
         }
 
-        return (
-            <div>
-                <div className="status">{status}</div>
-                <div className="board-row">
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                    {this.renderSquare(3)}
+            newTotal = newTotal - item.price;
+        console.log('minus:' + newTotal)
+              // newOrder.splice(item.name,1);
+                this.setState({orderList: newOrder, total: Number(newTotal.toFixed(2))})
+        }
+  render() {
+    return (<div className="container-fluid">
+            <div className="justify header"><h2 className="headText">Niki's Cafe</h2></div> <br />
+            <div className="row">
+                <div className="col-6">
+                    <div className="row">
+                    <div className="col-1"></div> <br />
+                    <div className="col-10"><LeftSide menu={this.state.menuList} onClick={(order)=> this.addOrder(order)}/></div>
+                    <div className="col-1"></div>
+                    </div>
                 </div>
-                <div className="board-row">
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                    {this.renderSquare(6)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                    {this.renderSquare(9)}
+                <div className="col-6">
+                    <div className="row">
+                    <div className="col-1"></div> <br />
+                    <div className="col-10"><RightSide order={this.state.orderList} remove={(item)=> this.removeOrder(item)} total={this.state.total}/></div>
+                    <div className="col-1"></div>
+                    </div>
                 </div>
             </div>
+        </div>
+    );
+  }
+}
+
+export class LeftSide extends Component{
+
+
+    render(){
+        return( <div className="leftSide">
+
+                    <h3 className="leftSideHeader"> <b> Menu </b> </h3>
+                <div className="row menuList">
+                    <div className="col-2"></div>
+                    <div className="col-8">
+                <table className="table table-dark" align="center">
+                        <thead align="center"><tr><th colSpan="3" style={{ color: 'red'}}>Drinks</th></tr></thead>
+                        <tbody>
+                        {this.props.menu.map((order) => <tr key={order.name}><td key={order.name}>{order.name}</td><td key={order.price}>${order.price}</td><td><button className="btn btn-outline-danger btn-sm" onClick={()=>this.props.onClick(order)}>+</button></td></tr>)}
+                        </tbody>
+                </table>
+                    </div>
+                    <div className="col-2"></div>
+                </div>
+            </div>
+
         );
     }
 }
 
-function Square(props){
-
-    return (
-            <button className="square" onClick={props.onClick}>
-                {props.value}
-            </button>
-        );
-
-}
-function calculateWinner(squares) {
-    const lines = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6],
-    ];
-    for (let i = 0; i < lines.length; i++) {
-        const [a, b, c] = lines[i];
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
-        }
+export class RightSide extends Component{
+    constructor(props){
+        super(props);
+        this.state={
+            menuList: null
+        };
     }
-    return null;
+    render(){
+        return( <div className="rightSide">
+
+                <h3 className="rightSideHeader"> <b>Order Summery</b></h3>
+            <div className="row menuList">
+                <div className="col-2"></div>
+                <div className="col-8">
+                    <table className="table table-dark" align="center">
+                        <thead align="center"><tr><th colSpan="4" style={{ color: 'red'}}>Bill</th></tr></thead>
+                        <tbody>
+                                <tr><td>Item</td><td>Qty</td><td>Amount</td></tr>
+                                {this.props.order.map((item)=><tr key={item.name}><td key={item.name}>{item.name}</td><td key={item.qty}>{item.qty}</td><td key={item.price}>${item.price}</td><td><button className="btn btn-outline-danger btn-sm" onClick={()=>this.props.remove(item)}>-</button></td></tr>)}
+                                <tr><td colSpan="2" align="center">Total : </td><td>${this.props.total}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div className="col-2"></div>
+            </div>
+            </div>
+
+        );
+    }
 }
 
-export default Game;
+export default App;
